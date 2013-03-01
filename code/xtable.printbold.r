@@ -15,7 +15,7 @@
 ## printbold(xtable(x), x >= 6.5, type = "html")
 
 xtable.printbold <-
-    function(x, which = NULL, each = c("column", "row"), max = TRUE,
+    function(x, which.bold=NULL, which.ital=NULL, each = c("column", "row"), max = TRUE,
              NA.string = "", type = c("latex", "html"),
              sanitize.text.function = force,
              sanitize.rownames.function = NULL,
@@ -25,10 +25,10 @@ xtable.printbold <-
     each <- match.arg(each)
     type <- match.arg(type)
     digits <- rep(digits(x), length = ncol(x)+1)
-    if (!is.null(which)) {
-        stopifnot(nrow(which) == nrow(x))
-        stopifnot(ncol(which) == ncol(x))
-        boldmatrix <- which
+    if (!is.null(which.bold)) {
+        stopifnot(nrow(which.bold) == nrow(x))
+        stopifnot(ncol(which.bold) == ncol(x))
+        boldmatrix <- which.bold
     } else {
         boldmatrix <- matrix(FALSE, ncol = ncol(x), nrow = nrow(x))
         ## round values before calculating max/min to avoid trivial diffs
@@ -62,6 +62,11 @@ xtable.printbold <-
             }
         }
     }
+    if (!is.null(which.ital)) {
+        stopifnot(nrow(which.ital) == nrow(x))
+        stopifnot(ncol(which.ital) == ncol(x))
+        italmatrix <- which.ital
+    }
     ## need to convert to character
     ## only support per-column formats, not cell formats
     display <- rep(display(x), length = ncol(x)+1)
@@ -79,7 +84,17 @@ xtable.printbold <-
         } else {
             x[yes,i] <- paste("<strong>", x[yes,i], "</strong>", sep = "")
         }
+        
+        if (!is.null(which.ital)) {
+			yes <- italmatrix[,i]
+			if (type == "latex") {
+				x[yes,i] <- paste("\\emph{", x[yes,i], "}", sep = "")
+			} else {
+				x[yes,i] <- paste("<strong>", x[yes,i], "</strong>", sep = "")
+			}
+        }
     }
+	
     print(x, ..., type = type, NA.string = NA.string,
           sanitize.text.function = sanitize.text.function,
           sanitize.rownames.function = sanitize.rownames.function,
