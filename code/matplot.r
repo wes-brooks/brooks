@@ -70,12 +70,14 @@ gwr.matplot <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), extreme
             		
             		indx = which(x > xcrit)
             		cellcolors[indx] = color.scale(x[indx], c(col.crit[1], cs1[2]), c(col.crit[2], cs2[2]), c(col.crit[3], cs3[2]), extremes=extremes, na.color=na.color, color.spec=color.spec, xrange=c(xcrit, xrange[2]))
+
+            		indx = which(is.na(x))
+            		cellcolors[indx] = na.color
             	}            	
             }
         }
         if (is.na(vcol)) 
-            vcol <- ifelse(colSums(col2rgb(cellcolors) * c(1, 
-                1.4, 0.6)) < 350, "white", "black")
+            vcol <- ifelse(colSums(col2rgb(cellcolors) * c(1, 1.4, 0.6)) < 350, "white", "black")
         if (Hinton)
         {
             if (any(x < 0 | x > 1)) 
@@ -152,13 +154,15 @@ gwr.matplot <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), extreme
 			rect.col = rep(NA, nslices)
 			crit = ((nslices * (xcrit - xrange[1])/(xrange[2]-xrange[1])) %/% 1)
 			indx = 1:crit
-			rect.col[indx] = color.scale(indx, c(cs1[1], col.crit[1]), c(cs2[1], col.crit[2]), c(cs3[1], col.crit[3]), color.spec=color.spec)
+            if (length(indx)==1) { rect.col[indx] = get(color.spec)(cs1[1], cs2[1], cs3[1],1) }
+			else { rect.col[indx] = color.scale(indx, c(cs1[1], col.crit[1]), c(cs2[1], col.crit[2]), c(cs3[1], col.crit[3]), color.spec=color.spec) }
 			
 			indx = (crit+1):nslices
-			rect.col[indx] = color.scale(indx, c(col.crit[1], cs1[2]), c(col.crit[2], cs2[2]), c(col.crit[3], cs3[2]), color.spec=color.spec)
+            if (length(indx)==1) { rect.col[indx] = get(color.spec)(cs1[2], cs2[2], cs3[2],1) }
+			else { rect.col[indx] = color.scale(indx, c(col.crit[1], cs1[2]), c(col.crit[2], cs2[2]), c(col.crit[3], cs3[2]), color.spec=color.spec) }
 		}  
         
-        if (show.legend) 
+        if (show.legend)
             color.legend(grx1, gry1, grx2, gry2, round(xrange, show.legend), rect.col=rect.col)
         par(oldpar)
     }
