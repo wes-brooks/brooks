@@ -72,7 +72,6 @@ xtable.printbold <-
     display <- rep(display(x), length = ncol(x)+1)
     for (i in 1:ncol(x)) {
         if (!is.numeric(x[,i])) next
-        is.numeric(x[,i]))
         ina <- is.na(x[,i])        
         x[,i] <- formatC(x[,i], digits=digits[i+1], format=display[i+1])        
         x[ina, i] <- NA.string
