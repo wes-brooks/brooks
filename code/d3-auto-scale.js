@@ -8,9 +8,6 @@ var projection = d3.geo.albers()
     .scale(5000)
     .translate([width / 2, height / 2]);
 
-var color = d3.scale.quantize()
-  .range(["rgb(237,248,233)","rgb(186,228,179)","rgb(116,196,118)","rgb(49,163,84)","rgb(0,109,44)"]);
-
 var svg = d3.select("#pov-pex-1970").append("svg")
     .attr("class", "img-responsive");
 
@@ -30,7 +27,7 @@ matchPolygons = function (geo, locs) {
     return indx;
 };
 
-var topology, centroids, coefs, lookup;
+var topology, centroids, coefs, lookup, color, max, min;
 queue()
     .defer(d3.csv, "//somesquares.org/static/csv/poverty/coefs-1970.csv")
     .defer(d3.csv, "//somesquares.org/static/csv/poverty/centroids.csv")
@@ -66,7 +63,7 @@ function ready(error, coefficients, cents, topo) {
     var width = $('#pov-pex-1970')[0].scrollWidth
     var sx = d3.scale.linear()
     sx.domain([bottomleft[0], topright[0]])
-    sx.range([0,width])
+    sx.range([5,width-15])
 
 
     var sy = d3.scale.linear()
@@ -92,10 +89,29 @@ function ready(error, coefficients, cents, topo) {
     }
   }
 
-  color.domain([
-    d3.min(out), 
-    d3.max(out)
-  ]);
+ 
+ svg.style("background-color", "rgb(240, 240, 240)");
+
+    var pos = out.filter(function(x) {return x>0}).sort(d3.ascending)
+    var neg = out.filter(function(x) {return x<0}).sort(d3.ascending)
+
+
+
+  min = d3.min(out)
+  max = d3.max(out)
+  
+  //Color scale:
+  var rpos = d3.scale.linear().domain([0,max]).range([255,230])
+  var gpos = d3.scale.linear().domain([0,max]).range([255,97])
+  var bpos = d3.scale.linear().domain([0,max]).range([255,1])
+  var colpos = function(x) { return 'rgb(' + String(d3.round(rpos(x))) + ',' + String(d3.round(gpos(x))) + ',' + String(d3.round(bpos(x))) + ')' }
+  
+  var rneg = d3.scale.linear().domain([0,min]).range([255,94])
+  var gneg = d3.scale.linear().domain([0,min]).range([255,60])
+  var bneg = d3.scale.linear().domain([0,min]).range([255,153])
+  var colneg = function(x) { return 'rgb(' + String(d3.round(rneg(x))) + ',' + String(d3.round(gneg(x))) + ',' + String(d3.round(bneg(x))) + ')' }
+  
+  var color = function(x) { if (x<=0) {return colneg(x)} else {return colpos(x)} }
 
   svg.selectAll("path")
       .data(features)
@@ -105,6 +121,36 @@ function ready(error, coefficients, cents, topo) {
         var valid = !isNaN(d.out);
         if(valid) { return color(d.out); }
         else { return "#ccc"; }
-      });
+      })
+      .style('stroke', 'rgb(220,220,220)')
+      .style('stroke-width', '0.5px');
+      
+  var indx = d3.range(5);
+  var legend = [min, min/2, 0, max/2, max]
+  svg.selectAll("rect")
+    .data(legend)
+    .enter()
+    .append("rect")
+    .attr("x",20)
+    .attr('y', function(d,i) {return yrange * width/xrange - 15 - 25*i})
+    .attr('width',24)
+    .attr('height',24)
+    .attr('fill', function(d,i) {return color(d)});
+    
+  var tags = [String(d3.round(min,1)),
+    "",
+    "0",
+    "",
+    String(d3.round(max,1))];
+    
+  svg.selectAll("text")
+    .data(legend)
+    .enter()
+    .append("text")
+    .attr("x",50)
+    .attr('y', function(d,i) {return yrange * width/xrange +1 - 25*i})
+    .text(function(d,i) {return tags[i]})
+    .attr('font-weight','bold');
+    
+  svg.append('text').attr('x',5).attr('y',yrange * width/xrange - 125).text('Odds Ratio').attr('font-weight','bold');
 }
-
