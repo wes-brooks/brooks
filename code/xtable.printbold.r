@@ -71,10 +71,14 @@ xtable.printbold <-
     ## only support per-column formats, not cell formats
     display <- rep(display(x), length = ncol(x)+1)
     for (i in 1:ncol(x)) {
-        if (!is.numeric(x[,i])) next
-        ina <- is.na(x[,i])        
-        x[,i] <- formatC(x[,i], digits=digits[i+1], format=display[i+1])        
-        x[ina, i] <- NA.string
+        if (!is.numeric(x[,i])) {
+            x[,i] = as.character(x[,i])
+        }
+        else {
+            ina <- is.na(x[,i])        
+            x[,i] <- formatC(x[,i], digits=digits[i+1], format=display[i+1])        
+            x[ina, i] <- NA.string
+        }
         display(x)[i+1] <- "s"
         ## embolden
         yes <- boldmatrix[,i]
