@@ -1,4 +1,4 @@
-load_https <- function(url, ...) {
+load_https <- function(url, sep=',', header=TRUE, row.names=NULL ...) {
   # load package
   require(RCurl)
  
