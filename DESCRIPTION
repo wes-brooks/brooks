@@ -6,5 +6,5 @@ Date: 2013-10-14
 Author: Wesley Brooks
 Maintainer: Wesley Brooks <wesley@somesquares.org>
 Description: More about what it does (maybe more than one line)
-Requires: ggplot2, RColorBrewer, plotrix, xtable
+Depends: ggplot2, RColorBrewer, plotrix, xtable
 License: WTFPL
