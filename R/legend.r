@@ -132,10 +132,10 @@ heat_leg <- function(range, r=c(0,1), g=0, b=c(1,0), slices=10)
 
 
 #Using the plotting methods:
-dev.new()
-color2D(fitted,c(0,1),0,c(1,0), border=NA, yrev=F, axes=F, ann=F, xrange=c(-0.6,7.6))
-heat_leg(range=c(-0.6, 7.6))
+#dev.new()
+#color2D(fitted,c(0,1),0,c(1,0), border=NA, yrev=F, axes=F, ann=F, xrange=c(-0.6,7.6))
+#heat_leg(range=c(-0.6, 7.6))
 
-dev.new()
-color2D(log(trees),c(0,1),0,c(1,0), border=NA, yrev=F, axes=F, ann=F, xrange=c(-0.6,7.6))
-heat_leg(range=c(-0.6, 7.6))
+#dev.new()
+#color2D(log(trees),c(0,1),0,c(1,0), border=NA, yrev=F, axes=F, ann=F, xrange=c(-0.6,7.6))
+#heat_leg(range=c(-0.6, 7.6))
