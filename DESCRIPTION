@@ -1,3 +1,9 @@
-This is a repository for random utilities written or collected by Wesley Brooks.
-
-I'll put things here if they don't obviously belong somewhere else, or if they should have wider application than the project from which they originated.
+Package: brooks
+Type: Package
+Title: Random utilities, often useful
+Version: 1.0
+Date: 2013-10-14
+Author: Wesley Brooks
+Maintainer: Wesley Brooks <wesley@somesquares.org>
+Description: More about what it does (maybe more than one line)
+License: WTFPL
