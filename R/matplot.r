@@ -1,5 +1,5 @@
-gwr.matplot <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), extremes = NA, 
-    cellcolors = NA, show.legend = FALSE, nslices = 10, xlab = "Column", 
+matplot <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), extremes = NA, 
+    cellcolors = NA, show.legend = FALSE, cex.legend=1, nslices = 10, xlab = "Column", 
     ylab = "Row", do.hex = FALSE, axes = TRUE, show.values = FALSE, 
     vcol = NA, vcex = 1, border = "black", na.color = NA, xrange = NULL, 
     color.spec = "rgb", yrev = TRUE, xat = NULL, yat = NULL, xcrit=NULL, col.crit=NULL,
@@ -136,9 +136,9 @@ gwr.matplot <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), extreme
         plot.pin <- par("pin")
         bottom.gap <- (xy[3] - xy[4]) * (plot.din[2] - plot.pin[2])/(2 * plot.pin[2])
         grx1 <- xy[1]
-        gry1 <- bottom.gap * 0.95
+        gry1 <- bottom.gap * 0.8
         grx2 <- xy[1] + (xy[2] - xy[1])/4
-        gry2 <- bottom.gap * 0.8
+        gry2 <- bottom.gap * 0.3
         if (length(cellcolors) > 1)
         {
             colmat <- col2rgb(color.scale(xrange, cs1, cs2, cs3, extremes=extremes, na.color=na.color, color.spec=color.spec, xrange=xrange))
@@ -163,7 +163,7 @@ gwr.matplot <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), extreme
 		}  
         
         if (show.legend)
-            color.legend(grx1, gry1, grx2, gry2, round(xrange, show.legend), rect.col=rect.col)
+            color.legend(grx1, gry1, grx2, gry2, round(xrange, show.legend), align='rb', rect.col=rect.col)
         par(oldpar)
     }
     else cat("x must be a data frame or matrix\n")
