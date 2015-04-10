@@ -61,15 +61,15 @@ matplot <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), extremes = 
 
             else
             {
-            	if (is.null(zcrit) || is.null(col.crit)) cellcolors <- color.scale(x, cs1, cs2, cs3, extremes=extremes, na.color=na.color, color.spec=color.spec, zrange=zrange)
+            	if (is.null(zcrit) || is.null(col.crit)) cellcolors <- color.scale(x, cs1, cs2, cs3, extremes=extremes, na.color=na.color, color.spec=color.spec, xrange=zrange)
             	else
             	{
             		cellcolors = rep(NA, length(x))
             		indx = which(x <= zcrit)
-            		cellcolors[indx] = color.scale(x[indx], c(cs1[1], col.crit[1]), c(cs2[1], col.crit[2]), c(cs3[1], col.crit[3]), extremes=extremes, na.color=na.color, color.spec=color.spec, zrange=c(zrange[1], zcrit))
+            		cellcolors[indx] = color.scale(x[indx], c(cs1[1], col.crit[1]), c(cs2[1], col.crit[2]), c(cs3[1], col.crit[3]), extremes=extremes, na.color=na.color, color.spec=color.spec, xrange=c(zrange[1], zcrit))
             		
             		indx = which(x > zcrit)
-            		cellcolors[indx] = color.scale(x[indx], c(col.crit[1], cs1[2]), c(col.crit[2], cs2[2]), c(col.crit[3], cs3[2]), extremes=extremes, na.color=na.color, color.spec=color.spec, zrange=c(zcrit, zrange[2]))
+            		cellcolors[indx] = color.scale(x[indx], c(col.crit[1], cs1[2]), c(col.crit[2], cs2[2]), c(col.crit[3], cs3[2]), extremes=extremes, na.color=na.color, color.spec=color.spec, xrange=c(zcrit, zrange[2]))
 
             		indx = which(is.na(x))
             		cellcolors[indx] = na.color
