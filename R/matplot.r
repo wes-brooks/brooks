@@ -3,7 +3,7 @@ matplot <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), extremes = 
     ylab = "Row", do.hex = FALSE, axes = TRUE, show.values = FALSE, 
     vcol = NA, vcex = 1, border = "black", na.color = NA, zrange = NULL, 
     color.spec = "rgb", yrev = TRUE, xat = NULL, yat = NULL, zcrit=NULL, col.crit=NULL,
-    Hinton = FALSE, ...) 
+    Hinton = FALSE, xtick.lab=NULL, ytick.lab=NULL, ...) 
 {
     if (is.matrix(x) || is.data.frame(x))
     {
@@ -44,10 +44,10 @@ matplot <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), extremes = 
         {
             if (is.null(xat)) 
                 xat <- pretty(0:xdim[2])[-1]
-            axis(1, at = xat - 0.5, labels = xat, pos = pos)
+            axis(1, at = xat - 0.5, labels = xtick.lab, pos = pos)
             if (is.null(yat)) 
                 yat <- pretty(0:xdim[1])[-1]
-            axis(2, at = xdim[1] - yat + 0.5, labels = yat)
+            axis(2, at = xdim[1] - yat + 0.5, labels = ytick.lab)
         }
         if (all(is.na(cellcolors)))
         {
