@@ -141,7 +141,7 @@ matplot <- function (x, cs1 = c(0, 1), cs2 = c(0, 1), cs3 = c(0, 1), extremes = 
         gry2 <- bottom.gap * 0.3
         if (length(cellcolors) > 1)
         {
-            colmat <- col2rgb(color.scale(zrange, cs1, cs2, cs3, extremes=extremes, na.color=na.color, color.spec=color.spec, zrange=zrange))
+            colmat <- col2rgb(color.scale(zrange, cs1, cs2, cs3, extremes=extremes, na.color=na.color, color.spec=color.spec, xrange=zrange))
             cs1 <- colmat[1, ]/255
             cs2 <- colmat[2, ]/255
             cs3 <- colmat[3, ]/255
